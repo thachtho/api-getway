@@ -34,7 +34,7 @@ describe('UsersController', () => {
       const result = { id: 1, name: 'John Doe' };
       jest.spyOn(usersService, 'findOne').mockReturnValue(of(result));
 
-      usersController.findOne('1').subscribe({
+      usersController.findOne(1).subscribe({
         next: (data) => {
           expect(data).toEqual(result);
           done();
@@ -48,7 +48,7 @@ describe('UsersController', () => {
         .spyOn(usersService, 'findOne')
         .mockReturnValue(throwError(() => error));
 
-      usersController.findOne('1').subscribe({
+      usersController.findOne(1).subscribe({
         next: () => {},
         error: (err) => {
           expect(err).toBeInstanceOf(HttpException);
