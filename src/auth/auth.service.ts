@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable, catchError } from 'rxjs';
+import { IResponseLogin } from './auth.controller.i';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
   onModuleInit() {
     this.userClient.subscribeToResponseOf('IMO-AUTH');
   }
-  login(): Observable<any> {
+  login(): Observable<IResponseLogin> {
     return this.userClient
       .send(
         'IMO-AUTH',
@@ -25,8 +26,6 @@ export class AuthService {
       )
       .pipe(
         catchError((error) => {
-          // Xử lý lỗi tại đây, ví dụ như log lỗi hoặc phát ra lỗi HTTP cho client
-          console.error('Error occurred:', error);
           throw error; // hoặc return throwError(error); nếu bạn muốn truyền tiếp lỗi
         }),
       );
