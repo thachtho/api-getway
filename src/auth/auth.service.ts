@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { Observable, catchError } from 'rxjs';
 import { IResponseLogin } from './auth.controller.i';
+import { LoginDTO } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,16 +13,13 @@ export class AuthService {
   onModuleInit() {
     this.userClient.subscribeToResponseOf('IMO-AUTH');
   }
-  login(): Observable<IResponseLogin> {
+  login(body: LoginDTO): Observable<IResponseLogin> {
     return this.userClient
       .send(
         'IMO-AUTH',
         JSON.stringify({
           eventName: 'auth-login',
-          data: {
-            email: 'admin@gmail.com',
-            password: '111111',
-          },
+          data: body,
         }),
       )
       .pipe(
