@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { map } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -12,7 +12,7 @@ export class AuthController {
   async login(
     @Res()
     res: Response,
-    @Body() body: any,
+    @Body() body: LoginDTO,
   ) {
     return this.authService.login(body).pipe(
       map((data) => {
