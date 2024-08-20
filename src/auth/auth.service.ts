@@ -1,27 +1,20 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientKafka } from '@nestjs/microservices';
+import { Injectable } from '@nestjs/common';
 import { Observable, catchError } from 'rxjs';
+import { KafkaEvent } from 'src/kafka/kafka.i';
 import { IResponseLogin } from './auth.controller.i';
 import { LoginDTO } from './dto/login.dto';
+import { KafkaService } from 'src/kafka/kafka';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject('USER_MICROSERVICE') private readonly userClient: ClientKafka,
-  ) {}
+  constructor(private readonly authClient: KafkaService) {}
 
-  onModuleInit() {
-    this.userClient.subscribeToResponseOf('IMO-AUTH');
-  }
   login(body: LoginDTO): Observable<IResponseLogin> {
-    return this.userClient
-      .send(
-        'IMO-AUTH',
-        JSON.stringify({
-          eventName: 'auth-login',
-          data: body,
-        }),
-      )
+    return this.authClient
+      .send$({
+        eventName: KafkaEvent.AUTH_LOGIN,
+        data: body,
+      })
       .pipe(
         catchError((error) => {
           throw error; // hoặc return throwError(error); nếu bạn muốn truyền tiếp lỗi
