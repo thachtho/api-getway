@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, catchError } from 'rxjs';
-import { KafkaEvent } from 'src/kafka/kafka.i';
+import { KafkaService } from 'src/kafka/kafka';
+import { Topics } from 'src/kafka/kafka.i';
 import { IResponseLogin } from './auth.controller.i';
 import { LoginDTO } from './dto/login.dto';
-import { KafkaService } from 'src/kafka/kafka';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
   login(body: LoginDTO): Observable<IResponseLogin> {
     return this.authClient
       .send$({
-        eventName: KafkaEvent.AUTH_LOGIN,
+        topic: Topics.AUTH_LOGIN,
         data: body,
       })
       .pipe(
