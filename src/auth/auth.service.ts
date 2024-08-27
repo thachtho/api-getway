@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, catchError } from 'rxjs';
-import { KafkaService } from 'src/kafka/kafka';
-import { Topics } from 'src/kafka/kafka.i';
+import { KafkaService } from '../kafka/kafka';
+import { Topics } from '../kafka/kafka.i';
 import { IResponseLogin } from './auth.controller.i';
 import { LoginDTO } from './dto/login.dto';
 
@@ -17,7 +17,7 @@ export class AuthService {
       })
       .pipe(
         catchError((error) => {
-          throw error; // hoặc return throwError(error); nếu bạn muốn truyền tiếp lỗi
+          throw error;
         }),
       );
   }

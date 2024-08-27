@@ -17,11 +17,7 @@ import { KafkaClient } from './kafka.i';
             transport: Transport.KAFKA,
             options: {
               client: {
-                clientId: 'auth',
                 brokers: [`${kafkaHost}:${kafkaPort}`],
-              },
-              consumer: {
-                groupId: 'auth-consumer',
               },
             },
           };

@@ -30,7 +30,6 @@ export class KafkaService {
         return of(res);
       }),
       map((results) => {
-        console.log(results);
         return results;
       }),
       catchError((error) => {
