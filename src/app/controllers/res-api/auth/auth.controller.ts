@@ -2,8 +2,10 @@ import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDTO } from './dto/login.dto';
+import { Public } from '../../../infrastructure/common/guard/auth.guard.i';
 
 @Controller('auth')
+@Public()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

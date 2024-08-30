@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { catchError, map, mergeMap, of } from 'rxjs';
-import { KafkaClient, Topics } from './kafka.i';
+import { KafkaClient, Topics } from './kafka-producer.i';
 
 @Injectable()
-export class KafkaService {
+export class KafkaProducerService {
   constructor(@Inject(KafkaClient) private readonly client: ClientKafka) {}
 
   onModuleInit() {

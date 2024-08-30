@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { UsersService } from '../src/users/users.service';
+import { AppModule } from '../src/app/app.module';
+import { UsersService } from '../src/app/controllers/res-api/users/users.service';
 import { of, throwError } from 'rxjs';
 
 describe('UsersController (e2e)', () => {

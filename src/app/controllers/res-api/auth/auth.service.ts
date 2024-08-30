@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, catchError } from 'rxjs';
-import { KafkaService } from '../kafka/kafka';
-import { Topics } from '../kafka/kafka.i';
 import { IResponseLogin } from './auth.controller.i';
 import { LoginDTO } from './dto/login.dto';
+import { Topics } from '../../../infrastructure/common/kafka-producer/kafka-producer.i';
+import { KafkaProducerService } from 'src/app/infrastructure/common/kafka-producer/kafka-producer';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly authClient: KafkaService) {}
+  constructor(private readonly authClient: KafkaProducerService) {}
 
   login(body: LoginDTO): Observable<IResponseLogin> {
     return this.authClient
