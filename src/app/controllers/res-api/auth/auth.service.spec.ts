@@ -1,21 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { KafkaService } from '../kafka/kafka';
-import { Topics } from '../kafka/kafka.i';
 import { of, throwError } from 'rxjs';
-import { LoginDTO } from './dto/login.dto';
 import { IResponseLogin } from './auth.controller.i';
+import { AuthService } from './auth.service';
+import { LoginDTO } from './dto/login.dto';
+import { KafkaProducerService } from '../../../infrastructure/common/kafka-producer/kafka-producer';
+import { Topics } from '../../../infrastructure/common/kafka-producer/kafka-producer.i';
 
 describe('AuthService', () => {
   let authService: AuthService;
-  let kafkaService: KafkaService;
+  let kafkaService: KafkaProducerService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         {
-          provide: KafkaService,
+          provide: KafkaProducerService,
           useValue: {
             send$: jest.fn(),
           },
@@ -24,11 +24,11 @@ describe('AuthService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
-    kafkaService = module.get<KafkaService>(KafkaService);
+    kafkaService = module.get<KafkaProducerService>(KafkaProducerService);
   });
 
   it('should successfully log in', (done) => {
-    const loginDto: LoginDTO = { email: 'test', password: 'test' };
+    const loginDto: LoginDTO = { nickname: 'test', password: 'test' };
     const response: IResponseLogin = {
       access_token: 'access_token',
       refresh_token: 'refresh_token',
@@ -46,7 +46,7 @@ describe('AuthService', () => {
   });
 
   it('should throw an error on login failure', (done) => {
-    const loginDto: LoginDTO = { email: 'test', password: 'test' };
+    const loginDto: LoginDTO = { nickname: 'test', password: 'test' };
     const errorResponse = new Error('Login failed');
 
     jest

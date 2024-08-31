@@ -45,7 +45,7 @@ describe('AuthController', () => {
     jest.spyOn(authService, 'login').mockReturnValue(of(mockLoginData));
 
     const loginDto: LoginDTO = {
-      email: 'email',
+      nickname: 'email',
       password: 'pass',
     };
 
