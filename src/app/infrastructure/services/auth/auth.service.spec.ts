@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { of, throwError } from 'rxjs';
-import { IResponseLogin } from './auth.controller.i';
+import { IResponseLogin } from '../../../controllers/res-api/auth/auth.controller.i';
 import { AuthService } from './auth.service';
-import { LoginDTO } from './dto/login.dto';
-import { KafkaProducerService } from '../../../infrastructure/common/kafka-producer/kafka-producer';
-import { Topics } from '../../../infrastructure/common/kafka-producer/kafka-producer.i';
+import { LoginDTO } from '../../../controllers/res-api/auth/dto/login.dto';
+import { KafkaProducerService } from '../../common/kafka-producer/kafka-producer';
+import { Topics } from '../../common/kafka-producer/kafka-producer.i';
 
 describe('AuthService', () => {
   let authService: AuthService;

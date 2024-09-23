@@ -4,5 +4,6 @@ export const CON_FIG = {
   },
   request: {
     userService: 'http://localhost:5001',
+    roleControlService: 'http://localhost:5002',
   },
 };

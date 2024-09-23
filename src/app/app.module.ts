@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './controllers/res-api/users/users.module';
-import { AuthModule } from './controllers/res-api/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './infrastructure/common/guard/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { ClsModule } from 'nestjs-cls';
+import { RestApiModule } from './controllers/res-api/rest-api.module';
+import { AuthGuard } from './infrastructure/common/guard/auth.guard';
 import { HttpClientModule } from './infrastructure/common/http-client/http-client.module';
 import { KafkaProducerModule } from './infrastructure/common/kafka-producer/kafka-producer.module';
+import { ServicesModule } from './infrastructure/services/services.module';
 
 @Module({
   imports: [
@@ -20,8 +20,8 @@ import { KafkaProducerModule } from './infrastructure/common/kafka-producer/kafk
       isGlobal: true,
     }),
     JwtModule,
-    UsersModule,
-    AuthModule,
+    RestApiModule,
+    ServicesModule,
     KafkaProducerModule,
     HttpClientModule,
   ],

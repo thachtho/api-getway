@@ -9,11 +9,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { ClsService } from 'nestjs-cls';
 import { lastValueFrom } from 'rxjs';
-import { ROLE } from 'src/app/controllers/res-api/role/role.i';
-import { UsersService } from 'src/app/controllers/res-api/users/users.service';
+import { ROLE } from 'src/app/controllers/res-api/role-control/role.i';
 import { IS_PUBLIC_KEY, IUserSesson, jwtConstants } from './auth.guard.i';
 import { IUser } from 'src/app/controllers/res-api/users/user.service.i';
 import { Cls } from 'src/utils/cls.i';
+import { UsersService } from '../../services/users/users.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

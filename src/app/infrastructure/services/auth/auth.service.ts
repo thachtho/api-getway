@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Observable, catchError } from 'rxjs';
-import { IResponseLogin } from './auth.controller.i';
-import { LoginDTO } from './dto/login.dto';
-import { Topics } from '../../../infrastructure/common/kafka-producer/kafka-producer.i';
 import { KafkaProducerService } from 'src/app/infrastructure/common/kafka-producer/kafka-producer';
+import { Topics } from '../../common/kafka-producer/kafka-producer.i';
+import {
+  IResponseLogin,
+  LoginDTO,
+} from 'src/app/controllers/res-api/auth/auth.controller.i';
 
 @Injectable()
 export class AuthService {

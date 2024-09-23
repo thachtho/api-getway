@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { IUser } from './user.service.i';
+import { IUser } from '../../../controllers/res-api/users/user.service.i';
 import { CON_FIG } from 'src/conf/config';
-import { HttpClientService } from '../../../infrastructure/common/http-client/http-client';
+import { HttpClientService } from '../../common/http-client/http-client';
 
 @Injectable()
 export class UsersService {
