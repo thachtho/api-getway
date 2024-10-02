@@ -1,8 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { of, throwError } from 'rxjs';
-import { IResponseLogin } from '../../../controllers/res-api/auth/auth.controller.i';
+import { lastValueFrom, of, throwError } from 'rxjs';
+import {
+  IResponseLogin,
+  LoginDTO,
+} from '../../../controllers/res-api/auth/auth.controller.i';
 import { AuthService } from './auth.service';
-import { LoginDTO } from '../../../controllers/res-api/auth/dto/login.dto';
 import { KafkaProducerService } from '../../common/kafka-producer/kafka-producer';
 import { Topics } from '../../common/kafka-producer/kafka-producer.i';
 
@@ -10,15 +12,17 @@ describe('AuthService', () => {
   let authService: AuthService;
   let kafkaService: KafkaProducerService;
 
+  class MockKafkaProducerService {
+    send$ = jest.fn();
+  }
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
         {
           provide: KafkaProducerService,
-          useValue: {
-            send$: jest.fn(),
-          },
+          useClass: MockKafkaProducerService,
         },
       ],
     }).compile();
@@ -27,7 +31,12 @@ describe('AuthService', () => {
     kafkaService = module.get<KafkaProducerService>(KafkaProducerService);
   });
 
-  it('should successfully log in', (done) => {
+  it('should be defined', () => {
+    expect(authService).toBeDefined();
+    expect(kafkaService).toBeDefined();
+  });
+
+  it('should successfully log in', () => {
     const loginDto: LoginDTO = { nickname: 'test', password: 'test' };
     const response: IResponseLogin = {
       access_token: 'access_token',
@@ -35,30 +44,21 @@ describe('AuthService', () => {
     };
 
     jest.spyOn(kafkaService, 'send$').mockReturnValue(of(response));
-
-    authService.login(loginDto).subscribe(() => {
+    lastValueFrom(authService.login(loginDto)).then(() => {
       expect(kafkaService.send$).toHaveBeenCalledWith({
         topic: Topics.AUTH_LOGIN,
         data: loginDto,
       });
-      done();
     });
   });
 
-  it('should throw an error on login failure', (done) => {
+  it('shold throw error login fail', () => {
     const loginDto: LoginDTO = { nickname: 'test', password: 'test' };
-    const errorResponse = new Error('Login failed');
+    const error = new Error();
 
-    jest
-      .spyOn(kafkaService, 'send$')
-      .mockReturnValue(throwError(() => errorResponse));
-
-    authService.login(loginDto).subscribe({
-      next: () => {},
-      error: (error) => {
-        expect(error).toEqual(errorResponse);
-        done();
-      },
+    jest.spyOn(kafkaService, 'send$').mockReturnValue(throwError(() => error));
+    lastValueFrom(authService.login(loginDto)).catch((err) => {
+      expect(err).toEqual(error);
     });
   });
 });

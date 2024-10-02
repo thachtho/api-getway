@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { Route } from '../rest-api.i';
-import { RoleControlUserUseCase } from 'src/app/application/role-control/role-control-user/role-control-user.usecase';
+import { RoleControlUserUseCase } from '../../../application/role-control/role-control-user/role-control-user.usecase';
+import { catchError } from 'rxjs';
 
 @Controller(Route.ROLE_CONTROL)
 export class RoleControlControler {
@@ -8,6 +9,10 @@ export class RoleControlControler {
 
   @Get()
   getRoleControl() {
-    return this.useCase.excute();
+    return this.useCase.excute().pipe(
+      catchError((err: Error) => {
+        throw err;
+      }),
+    );
   }
 }
