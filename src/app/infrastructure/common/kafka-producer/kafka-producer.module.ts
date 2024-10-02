@@ -1,13 +1,14 @@
-import { Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
-import { UsersService } from './users.service';
+import { Global, Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { KafkaProducerService } from './kafka-producer';
+import { KafkaClient } from './kafka-producer.i';
 
+@Global()
 @Module({
   imports: [
     ClientsModule.registerAsync([
       {
-        name: 'USER_MICROSERVICE',
+        name: KafkaClient,
         useFactory: async () => {
           const kafkaHost = process.env.KAFKA_HOST;
           const kafkaPort = process.env.KAFKA_PORT;
@@ -16,11 +17,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
             transport: Transport.KAFKA,
             options: {
               client: {
-                clientId: 'user',
                 brokers: [`${kafkaHost}:${kafkaPort}`],
-              },
-              consumer: {
-                groupId: 'user-consumer',
               },
             },
           };
@@ -28,7 +25,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
       },
     ]),
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
+  providers: [KafkaProducerService],
+  exports: [KafkaProducerService],
 })
-export class UsersModule {}
+export class KafkaProducerModule {}
