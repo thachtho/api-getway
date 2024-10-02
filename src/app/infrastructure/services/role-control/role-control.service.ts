@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { IUser } from '../../../controllers/res-api/users/user.service.i';
-import { CON_FIG } from 'src/conf/config';
 import { HttpClientService } from '../../common/http-client/http-client';
+import { CON_FIG } from '../../../../conf/config';
 
 @Injectable()
 export class RoleControlService {
@@ -12,7 +11,7 @@ export class RoleControlService {
   }
 
   getRoleControlOfUser(roleId: number) {
-    return this.httpClientService.get$<IUser>(
+    return this.httpClientService.get$<any>(
       `${this.roleControlHost}/role-control?roleId=${roleId}`,
     );
   }
