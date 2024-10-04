@@ -52,8 +52,8 @@ export class AuthGuard implements CanActivate {
       const { data: user } =
         (await lastValueFrom(this.userService.findById(payload.userId))) || {};
 
-      this.checkPermission(roles, user[0]);
-      this.cls.set(Cls.USER, JSON.stringify(user[0]));
+      this.checkPermission(roles, user);
+      this.cls.set(Cls.USER, JSON.stringify(user));
     } catch (err) {
       throw new UnauthorizedException();
     }

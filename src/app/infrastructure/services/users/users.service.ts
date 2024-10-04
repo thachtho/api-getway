@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CON_FIG } from 'src/conf/config';
+import { ConfigService } from '../../../../conf/config.service';
+import { getUserCls } from '../../../common/cls/get-user-cls';
 import { IUser } from '../../../controllers/res-api/users/user.service.i';
 import { HttpClientService } from '../../common/http-client/http-client';
-import { getUserCls } from '../../../common/cls/get-user-cls';
 
 @Injectable()
 export class UsersService {
   private userHost: null | string;
 
-  constructor(private readonly httpClientService: HttpClientService) {
-    this.userHost = CON_FIG.request.userService;
+  constructor(
+    private readonly httpClientService: HttpClientService,
+    private readonly configService: ConfigService,
+  ) {
+    this.userHost = this.configService.userHost;
   }
   getRole() {
     const user = getUserCls();

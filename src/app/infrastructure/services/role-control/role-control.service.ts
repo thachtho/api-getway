@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '../../../../conf/config.service';
 import { HttpClientService } from '../../common/http-client/http-client';
-import { CON_FIG } from '../../../../conf/config';
 
 @Injectable()
 export class RoleControlService {
-  private roleControlHost: null | string;
+  private roleHost: null | string;
 
-  constructor(private readonly httpClientService: HttpClientService) {
-    this.roleControlHost = CON_FIG.request.roleControlService;
+  constructor(
+    private readonly httpClientService: HttpClientService,
+    private readonly configService: ConfigService,
+  ) {
+    this.roleHost = this.configService.roleHost;
   }
 
   getRoleControlOfUser(roleId: number) {
     return this.httpClientService.get$<any>(
-      `${this.roleControlHost}/role-control?roleId=${roleId}`,
+      `${this.roleHost}/role-control?roleId=${roleId}`,
     );
   }
 }

@@ -8,6 +8,7 @@ import { AuthGuard } from './infrastructure/common/guard/auth.guard';
 import { HttpClientModule } from './infrastructure/common/http-client/http-client.module';
 import { KafkaProducerModule } from './infrastructure/common/kafka-producer/kafka-producer.module';
 import { ServicesModule } from './infrastructure/services/services.module';
+import { ConfigModule as ConfigModuleCustom } from '../conf/config.service.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ServicesModule } from './infrastructure/services/services.module';
     ServicesModule,
     KafkaProducerModule,
     HttpClientModule,
+    ConfigModuleCustom,
   ],
   providers: [
     {
