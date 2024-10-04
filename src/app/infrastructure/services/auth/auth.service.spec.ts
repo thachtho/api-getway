@@ -1,8 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { of, throwError } from 'rxjs';
-import { IResponseLogin } from '../../../controllers/res-api/auth/auth.controller.i';
+import {
+  IResponseLogin,
+  LoginDTO,
+} from '../../../controllers/res-api/auth/auth.controller.i';
 import { AuthService } from './auth.service';
-import { LoginDTO } from '../../../controllers/res-api/auth/dto/login.dto';
 import { KafkaProducerService } from '../../common/kafka-producer/kafka-producer';
 import { Topics } from '../../common/kafka-producer/kafka-producer.i';
 

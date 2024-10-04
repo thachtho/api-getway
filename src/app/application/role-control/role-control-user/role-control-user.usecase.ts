@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { map } from 'rxjs';
-import { getUserCls } from 'src/app/common/cls/get-user-cls';
-import { RoleControlService } from 'src/app/infrastructure/services/role-control/role-control.service';
+import { getUserCls } from '../../../common/cls/get-user-cls';
+import { RoleControlService } from '../../../infrastructure/services/role-control/role-control.service';
 
 @Injectable()
 export class RoleControlUserUseCase {

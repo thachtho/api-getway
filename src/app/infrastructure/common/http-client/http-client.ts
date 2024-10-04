@@ -3,7 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { ClsServiceManager } from 'nestjs-cls';
 import { Observable } from 'rxjs';
-import { Cls } from 'src/utils/cls.i';
+import { Cls } from '../../../../utils/cls.i';
+
 
 @Injectable()
 export class HttpClientService {
