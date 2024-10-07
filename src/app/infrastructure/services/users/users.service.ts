@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '../../../../conf/config.service';
 import { getUserCls } from '../../../common/cls/get-user-cls';
-import { IUser } from '../../../controllers/res-api/users/user.service.i';
 import { HttpClientService } from '../../common/http-client/http-client';
+import { KafkaProducerService } from '../../common/kafka-producer/kafka-producer';
+import { Topics } from '../../common/kafka-producer/kafka-producer.i';
+import { TypeCreateUser, UserArg } from './user.service.i';
+import { IUser } from '../../../common/interface/user.i';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +14,7 @@ export class UsersService {
   constructor(
     private readonly httpClientService: HttpClientService,
     private readonly configService: ConfigService,
+    private readonly producer: KafkaProducerService,
   ) {
     this.userHost = this.configService.userHost;
   }
@@ -18,6 +22,13 @@ export class UsersService {
     const user = getUserCls();
 
     return user.roleId;
+  }
+
+  create(payload: UserArg, type: TypeCreateUser) {
+    return this.producer.send$({
+      topic: Topics.CREATE_USER,
+      data: { type, data: { ...payload } },
+    });
   }
 
   findById(id: number) {
