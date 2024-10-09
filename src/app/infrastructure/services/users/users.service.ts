@@ -31,6 +31,13 @@ export class UsersService {
     });
   }
 
+  update(payload: UserArg) {
+    return this.producer.send$({
+      topic: Topics.UPDATE_USER,
+      data: { data: { ...payload } },
+    });
+  }
+
   findById(id: number) {
     return this.httpClientService.get$<IUser>(
       `${this.userHost}/users/find-by-id/${id}`,

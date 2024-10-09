@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from '../../../infrastructure/services/users/users.service';
 import { Route } from '../rest-api.i';
 import { TypeCreateDto } from './user.service.i';
@@ -17,5 +17,10 @@ export class UsersController {
   create(@Body() body: IUser, @Query() query: TypeCreateDto) {
     const { typeCreate } = query;
     return this.usersService.create(body, typeCreate);
+  }
+
+  @Put('')
+  update(@Body() body: IUser) {
+    return this.usersService.update(body);
   }
 }

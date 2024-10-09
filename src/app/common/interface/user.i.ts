@@ -5,5 +5,5 @@ export interface IUser {
   password?: string;
   email?: string;
   roleId?: number;
-  agencyId: number;
+  agencyId?: number;
 }
