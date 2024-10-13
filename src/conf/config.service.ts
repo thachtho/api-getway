@@ -6,10 +6,12 @@ import { ENV } from './config.i';
 export class ConfigService {
   userHost: string | null = '';
   roleHost: string | null = '';
+  ucademicHost: string | null = '';
 
   constructor(private readonly config: Config) {
     this.userHost = this.getUrl(ENV.USER_SERVICE_HOST);
     this.roleHost = this.getUrl(ENV.ROLE_SERVICE_HOST);
+    this.ucademicHost = this.getUrl(ENV.UCADEMIC_SERVICE_HOST);
   }
 
   getUrl(key: string) {

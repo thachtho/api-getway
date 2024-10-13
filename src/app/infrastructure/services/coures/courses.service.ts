@@ -1,19 +1,39 @@
 import { Injectable } from '@nestjs/common';
+import { map } from 'rxjs';
 import { ConfigService } from '../../../../conf/config.service';
-import { CreateCourseDto, UpdateCourseDto } from '../../../controllers/res-api/courses/courses.controller.i';
+import { getUserCls } from '../../../common/cls/get-user-cls';
+import { ICourse } from '../../../common/interface/course.i';
+import {
+  CreateCourseDto,
+  UpdateCourseDto,
+} from '../../../controllers/res-api/courses/courses.controller.i';
+import { HttpClientService } from '../../common/http-client/http-client';
 import { KafkaProducerService } from '../../common/kafka-producer/kafka-producer';
 import { Topics } from '../../common/kafka-producer/kafka-producer.i';
-import { getUserCls } from '../../../common/cls/get-user-cls';
 
 @Injectable()
 export class CoursesService {
-  private userHost: null | string;
+  private ucademicHost: null | string;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly producer: KafkaProducerService,
+    private readonly httpClientService: HttpClientService,
   ) {
-    this.userHost = this.configService.userHost;
+    this.ucademicHost = this.configService.ucademicHost;
+  }
+
+  findAll() {
+    const user = getUserCls();
+    return this.httpClientService
+      .get$<
+        ICourse[]
+      >(`${this.ucademicHost}/courses?organizationId=${user.agencyId}`)
+      .pipe(
+        map((res) => {
+          return res.data;
+        }),
+      );
   }
 
   create(payload: CreateCourseDto) {
