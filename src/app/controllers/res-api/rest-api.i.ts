@@ -3,4 +3,5 @@ export enum Route {
   ROLE_CONTROL = 'role-control',
   AUTH = 'auth',
   USERS = 'users',
+  COURSES = 'courses',
 }
