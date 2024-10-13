@@ -5,4 +5,6 @@ export enum Topics {
   HEALTH_CHECK = 'health_check',
   CREATE_USER = 'create_user',
   UPDATE_USER = 'update_user',
+  CREATE_COURSE = 'create-course',
+  UPDATE_COURSE = 'update-course',
 }
